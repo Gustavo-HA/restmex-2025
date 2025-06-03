@@ -3,6 +3,8 @@ from pathlib import Path
 SRC_DIR = Path(__file__).resolve().parent
 
 # Configuración de directorios y archivos
+MODELS_DIR = SRC_DIR / Path("../models/")
+
 RAW_DATA_DIR = SRC_DIR / Path("../data/raw/")
 INTERIM_DATA_DIR = SRC_DIR / Path("../data/interim/")
 PREPROCESSED_DATA_DIR = SRC_DIR / Path("../data/preprocessed/")
