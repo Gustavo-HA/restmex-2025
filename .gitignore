@@ -197,3 +197,4 @@ cython_debug/
 =======
 .cursorindexingignore
 >>>>>>> dbb44db (gitignore python)
+/data
