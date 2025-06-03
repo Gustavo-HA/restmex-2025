@@ -10,7 +10,7 @@ except ImportError: # Use ImportError for specific exceptions
     import nltk
     nltk.download("stopwords")
     from nltk.corpus import stopwords
-from config import RAW_DATA_PATH, INTERIM_DATA_DIR, TEXT_COLUMNS, TARGETS, PREDICTOR # Assuming these are defined in config
+from .config import RAW_DATA_PATH, INTERIM_DATA_DIR, TEXT_COLUMNS, TARGETS, PREDICTOR # Assuming these are defined in config
 from sklearn.base import BaseEstimator, TransformerMixin
 from nltk import SnowballStemmer
 from sklearn.pipeline import Pipeline
@@ -47,8 +47,9 @@ class ArreglaMojibake(BaseEstimator, TransformerMixin):
         """
         Convierte un texto con mojibake (texto mal codificado) a texto legible.
         """
+        texto = texto.lower()
         try:
-            return texto.lower().encode('latin1').decode('utf-8')
+            return texto.encode('latin1').decode('utf-8')
         except (UnicodeEncodeError, UnicodeDecodeError): # Catch specific exceptions
             return texto
 
