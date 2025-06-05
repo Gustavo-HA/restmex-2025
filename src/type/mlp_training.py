@@ -5,7 +5,6 @@ import numpy as np
 import pandas as pd
 import tensorflow as tf
 from sklearn.preprocessing import LabelEncoder
-from sklearn.model_selection import train_test_split # Useful if you want to split again for validation
 
 from ..config import (
     PREPROCESSED_DATA_DIR,
@@ -18,13 +17,12 @@ from ..config import (
 
 # --- Configuration for this specific model ---
 TARGET_COLUMN_NAME = TARGET3 # Directly use TARGET3 from config.py
-FEATURES_FILENAME_PREFIX = "tfidf" # Or "w2v" depending on which features you want to use
+FEATURES_FILENAME_PREFIX = "w2v" # Or "w2v" depending on which features you want to use
 TRAIN_DATA_FILENAME = f"{FEATURES_FILENAME_PREFIX}_train.csv"
 TEST_DATA_FILENAME = f"{FEATURES_FILENAME_PREFIX}_test.csv"
 # Construct model save path using MODELS_DIR and TARGET3 name
-MODEL_SAVE_PATH = MODELS_DIR / f"mlp_{TARGET3.lower()}_model_{FEATURES_FILENAME_PREFIX}.h5"
+MODEL_SAVE_PATH = MODELS_DIR / f"mlp_{TARGET3.lower()}_model_{FEATURES_FILENAME_PREFIX}.keras"
 
-# MLP Hyperparameters (mapping from your scikit-learn example)
 HIDDEN_LAYER_SIZES = (256, 128, 64)
 ACTIVATION_FUNCTION = 'relu'
 OPTIMIZER_LEARNING_RATE = 1e-3
@@ -182,15 +180,14 @@ def evaluate_model(model: tf.keras.Model, X_test: pd.DataFrame, y_test: np.ndarr
 
 # --- Main Execution Block ---
 if __name__ == "__main__":
-    # 1. Set Random Seeds for reproducibility
+    #Set Random Seeds for reproducibility
     np.random.seed(RANDOM_SEED)
     tf.random.set_seed(RANDOM_SEED)
     os.environ['PYTHONHASHSEED'] = str(RANDOM_SEED)
 
-    # 2. Setup GPU
     setup_gpu()
 
-    # 3. Load and Prepare Data
+    # Load and Prepare Data
     print(f"Loading data for target: {TARGET_COLUMN_NAME} using {FEATURES_FILENAME_PREFIX} features.")
     try:
         X_train, y_train_encoded, X_test, y_test_encoded, num_classes, label_encoder = \
@@ -214,18 +211,13 @@ if __name__ == "__main__":
     print(f"Training data shape: {X_train.shape}")
     print(f"Test data shape: {X_test.shape}")
 
-
-    # 4. Create Model
     model = create_mlp_model(input_shape, num_classes)
 
-    # 5. Train Model
     history = train_model(model, X_train, y_train_encoded)
 
-    # 6. Evaluate Model
     loss, accuracy = evaluate_model(model, X_test, y_test_encoded)
 
-    # 7. Save Model
-    # Ensure the directory for saving models exists
+    #Save Model
     MODELS_DIR.mkdir(parents=True, exist_ok=True)
     print(f"\nSaving trained model to: {MODEL_SAVE_PATH}")
     model.save(MODEL_SAVE_PATH)

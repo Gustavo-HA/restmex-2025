@@ -16,7 +16,7 @@ class TfidfTextVectorizer(BaseEstimator, TransformerMixin):
     Tfidf compatible con sklearn.
     Utiliza la columna PREDICTOR del DataFrame de entrada.
     """
-    def __init__(self, max_features: int = None, min_df: int = 1, max_df: float = 1.0, ngram_range: tuple = (1, 1)):
+    def __init__(self, max_features: int = 2500, min_df: int = 1, max_df: float = 1.0, ngram_range: tuple = (1, 2)):
         self.max_features = max_features
         self.min_df = min_df
         self.max_df = max_df
@@ -80,12 +80,13 @@ class Word2VecTextVectorizer(BaseEstimator, TransformerMixin):
     W2V compatible con sklearn.
     Outputting a pandas DataFrame.
     """
-    def __init__(self, vector_size: int = 100, window: int = 5, min_count: int = 5, workers: int = 4, epochs: int = 10):
+    def __init__(self, vector_size: int = 100, window: int = 3, min_count: int = 5, workers: int = 4, epochs: int = 10, sg: int = 1):
         self.vector_size = vector_size
         self.window = window
         self.min_count = min_count
         self.workers = workers
         self.epochs = epochs
+        self.sg = sg
         self.w2v_model = None
         self.is_fitted_ = False
         self.feature_names_out_ = None # Re-enable for pandas output
@@ -108,7 +109,8 @@ class Word2VecTextVectorizer(BaseEstimator, TransformerMixin):
             window=self.window,
             min_count=self.min_count,
             workers=self.workers,
-            epochs=self.epochs
+            epochs=self.epochs,
+            sg = self.sg
         )
         self.w2v_model.build_vocab(sentences, update=False)
         self.w2v_model.train(sentences, total_examples=self.w2v_model.corpus_count, epochs=self.epochs)
@@ -160,12 +162,12 @@ class Word2VecTextVectorizer(BaseEstimator, TransformerMixin):
 
 def get_word2vec_pipeline() -> Pipeline:
     return Pipeline([
-        ('word2vec_vectorizer', Word2VecTextVectorizer(vector_size=150, window=3, min_count=3, workers=4, epochs=20))
+        ('word2vec_vectorizer', Word2VecTextVectorizer(vector_size=100, window=3, min_count=5, workers=4, epochs=10, sg = 1))
     ])
 
 def get_tfidf_pipeline() -> Pipeline:
     return Pipeline([
-        ('tfidf_vectorizer', TfidfTextVectorizer(max_features=5000, ngram_range=(1,2)))
+        ('tfidf_vectorizer', TfidfTextVectorizer(max_features=2500, ngram_range=(1,2)))
     ])
 
 def save_vectorizer(vectorizer, filename: str):
