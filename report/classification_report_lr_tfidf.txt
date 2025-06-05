@@ -1,0 +1,9 @@
+              precision    recall  f1-score   support
+
+  Attractive      0.957     0.959     0.958     13985
+       Hotel      0.953     0.916     0.934     10282
+  Restaurant      0.945     0.965     0.955     17344
+
+    accuracy                          0.951     41611
+   macro avg      0.952     0.947     0.949     41611
+weighted avg      0.951     0.951     0.951     41611
