@@ -13,6 +13,8 @@ from ..config import (
     INTERIM_DATA_DIR
 )
 
+from .dataset import RMDataset
+
 # --- Si no usas config.py, define las constantes aquí ---
 RAW_DATA_FILE = INTERIM_DATA_DIR / "train_set_Polarity.csv"
 TARGET_COLUMN = TARGET1
@@ -20,23 +22,6 @@ MODEL_NAME = "dccuchile/bert-base-spanish-wwm-cased"
 
 PROCESSED_DATA_DIR = PREPROCESSED_DATA_DIR / "polarity"
 
-
-class RMDataset(torch.utils.data.Dataset):
-    """
-    Dataset de PyTorch que encapsula los encodings y las etiquetas.
-    """
-    def __init__(self, encodings, labels):
-        self.encodings = encodings
-        self.labels = labels
-
-    def __getitem__(self, idx):
-        # Devuelve un diccionario con los tensores para un solo item
-        item = {key: torch.tensor(val[idx]) for key, val in self.encodings.items()}
-        item['labels'] = torch.tensor(self.labels[idx])
-        return item
-
-    def __len__(self):
-        return len(self.labels)
 
 
 def preprocesar():
