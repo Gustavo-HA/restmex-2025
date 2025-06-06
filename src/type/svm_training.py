@@ -1,6 +1,7 @@
 import os
 from pathlib import Path
 from sklearn.linear_model import SGDClassifier
+from sklearn.svm import SVC
 from sklearn.preprocessing import LabelEncoder
 import pandas as pd
 import numpy as np
@@ -19,7 +20,7 @@ def get_SVC_model():
     Returns a Support Vector Classifier (SVC) model with multiclass OnevsOne classification.
     """
     # Create a Logistic Regression model
-    svm_model = SGDClassifier()
+    svm_model = SVC(kernel='linear', random_state=42)
     
     return svm_model
 
@@ -70,7 +71,7 @@ FEATURES_FILENAME_PREFIX = "w2v" # Or "w2v" depending on which features you want
 TRAIN_DATA_FILENAME = f"{FEATURES_FILENAME_PREFIX}_train.csv"
 TEST_DATA_FILENAME = f"{FEATURES_FILENAME_PREFIX}_test.csv"
 # Construct model save path using MODELS_DIR and TARGET3 name
-MODEL_SAVE_PATH = MODELS_DIR / f"sgd_{TARGET3.lower()}_model_{FEATURES_FILENAME_PREFIX}.pkl"
+MODEL_SAVE_PATH = MODELS_DIR / f"svmlinear_{TARGET3.lower()}_model_{FEATURES_FILENAME_PREFIX}.pkl"
 
 if __name__ == "__main__":
     #Set Random Seeds for reproducibility
