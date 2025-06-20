@@ -127,7 +127,7 @@ class SpanishStemmer(BaseEstimator, TransformerMixin):
 class DropFeatures(BaseEstimator, TransformerMixin):
     """Dropping Features Which Are Less Significant"""
 
-    def __init__(self, variables_to_drop=None):
+    def __init__(self, variables_to_drop : list):
         self.variables_to_drop = variables_to_drop
 
     def fit(self, X, y=None):
@@ -144,7 +144,7 @@ class DropFeatures(BaseEstimator, TransformerMixin):
     
 class JuntarFeatures(BaseEstimator, TransformerMixin):
     """Juntar Features de texto significativas en una sola columna"""
-    def __init__(self, variables_to_join=None, new_column=None):
+    def __init__(self, variables_to_join : list , new_column : str):
         self.variables_to_join = variables_to_join
         self.new_column = new_column
     

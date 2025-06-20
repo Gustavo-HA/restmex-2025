@@ -14,6 +14,18 @@ from ..config import (
     TYPE_PREPROCESSED_DIR
 )
 from joblib import dump
+import argparse
+
+parser = argparse.ArgumentParser(description="Train Logistic Regression model with specified feature representation.")
+parser.add_argument(
+    "--features",
+    type=str,
+    required=True,
+    help="Feature representation prefix (e.g., 'w2v', 'tfidf', etc.)"
+)
+args = parser.parse_args()
+if args.features not in {"w2v", "tfidf"}:
+    raise ValueError("Invalid feature prefix. Only 'w2v' and 'tfidf' are allowed.")
 
 def get_logistic_regression_model():
     """
@@ -72,8 +84,8 @@ def load_and_prepare_data(target_preprocessed_dir: Path, train_filename: str, te
     
 
 # --- Configuration for this specific model ---
-TARGET_COLUMN_NAME = TARGET3 # Directly use TARGET3 from config.py
-FEATURES_FILENAME_PREFIX = "w2v" # Or "w2v" depending on which features you want to use
+TARGET_COLUMN_NAME = TARGET3
+FEATURES_FILENAME_PREFIX = args.features
 TRAIN_DATA_FILENAME = f"{FEATURES_FILENAME_PREFIX}_train.csv"
 TEST_DATA_FILENAME = f"{FEATURES_FILENAME_PREFIX}_test.csv"
 # Construct model save path using MODELS_DIR and TARGET3 name

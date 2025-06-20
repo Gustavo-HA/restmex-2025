@@ -4,12 +4,10 @@ import json
 from pathlib import Path
 from sklearn.utils.class_weight import compute_class_weight
 from sklearn.metrics import accuracy_score, f1_score
-from transformers import (
-    AutoTokenizer,
-    AutoModelForSequenceClassification,
-    TrainingArguments,
-    Trainer
-)
+from transformers.models.auto.modeling_auto import AutoModelForSequenceClassification
+from transformers.training_args import TrainingArguments
+from transformers.trainer import Trainer
+from transformers.models.auto.tokenization_auto import AutoTokenizer
 from torch.nn import CrossEntropyLoss
 from .dataset import RMDataset
 
@@ -18,8 +16,6 @@ from ..config import (
     MODELS_DIR
 )
 
-# --- 2. Construcción de Rutas a partir de la Configuración ---
-# Usamos las variables importadas para definir dónde leer y dónde escribir.
 INPUT_DATA_PATH = PREPROCESSED_DATA_DIR / "polarity"
 OUTPUT_MODEL_PATH = MODELS_DIR / "polarity_classifier"
 MODEL_NAME = "dccuchile/bert-base-spanish-wwm-cased"
@@ -80,7 +76,7 @@ def entrenar():
             outputs = model(**inputs)
             logits = outputs.get("logits")
             loss_fct = CrossEntropyLoss(weight=weights_tensor)
-            loss = loss_fct(logits.view(-1, self.model.config.num_labels), labels.view(-1))
+            loss = loss_fct(logits.view(-1, self.model.config.num_labels), labels.view(-1)) # type: ignore
             return (loss, outputs) if return_outputs else loss
 
     # Cargar el modelo pre-entrenado desde la config
@@ -126,8 +122,8 @@ def entrenar():
 
     # Guardar el mejor modelo y el tokenizador en una carpeta final
     final_model_path = OUTPUT_MODEL_PATH / "final_model_polarity"
-    trainer.save_model(final_model_path)
-    print(f"🏆 Mejor modelo guardado en: {final_model_path}")
+    trainer.save_model(final_model_path.__str__())
+    print(f"Mejor modelo guardado en: {final_model_path}")
     
     tokenizer = AutoTokenizer.from_pretrained(MODEL_NAME)
     tokenizer.save_pretrained(final_model_path)
