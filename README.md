@@ -5,6 +5,13 @@
 
 Este proyecto es un pipeline de extremo a extremo para el procesamiento y modelado de datos de reseñas de restaurantes mexicanos. El objetivo principal es realizar un análisis de sentimientos y una clasificación de texto para poder predecir la polaridad, la ciudad y el tipo de reseña.
 
+Este proyecto nace de la participación del equipo Corpus Christi en el evento [REST-MEX 2025](https://sites.google.com/cimat.mx/rest-mex-2025). Los integrantes del equipo somos:
+
+- **Uziel Luján**: [uziel.lujan@cimat.mx](mailto:uziel.lujan@cimat.mx)
+- **Diego Paniagua**: [diego.paniagua@cimat.mx](mailto:diego.paniagua@cimat.mx)
+- **César Aguirre**: [cesar.aguirre@cimat.mx](mailto:cesar.aguirre@cimat.mx)
+- **Gustavo Hernández**: [gustavo.angeles@cimat.mx](mailto:gustavo.angeles@cimat.mx)
+
 ## Datos
 
 > El conjunto de datos se encuentra íntegramente en el fichero `data/raw/restmex-corpus.csv`.
