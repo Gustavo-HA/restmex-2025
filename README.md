@@ -3,7 +3,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Python >3.12](https://img.shields.io/badge/python->3.12-blue.svg)](https://www.python.org/downloads/)
 
-Este proyecto es un pipeline de extremo a extremo para el procesamiento y modelado de datos de reseñas de restaurantes mexicanos. El objetivo principal es realizar un análisis de sentimientos y una clasificación de texto para poder predecir la polaridad, la ciudad y el tipo de reseña.
+Este proyecto es un pipeline de end to end para el procesamiento y modelado de datos de reseñas de restaurantes mexicanos. El objetivo principal es realizar un análisis de sentimientos y una clasificación de texto para poder predecir la polaridad, la ciudad y el tipo de reseña.
 
 Este proyecto nace de la participación del equipo Corpus Christi en el evento [REST-MEX 2025](https://sites.google.com/cimat.mx/rest-mex-2025). Los integrantes del equipo somos:
 
